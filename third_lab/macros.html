@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+{% macro render_checkbox(name, content, value) %}
+<form name = {{name}}>
+{% for nelem in content %}
+    {% if loop.index0 in value%}
+        <input type="checkbox" value={{loop.index0}} checked> {{elem}} <br>
+    {% else %}
+        <input type="checkbox" value={{loop.index0}}> {{elem}} <br>
+    {% endif %}
+{% endfor %}
+</form>
+{% endmacro %}
+
+{% macro create_row(value) %}
+    <tr>
+    {% for val in value.values() %}
+        <td>{{val}}</td>
+    {% endfor %}
+    </tr>
+{% endmacro %}
+
+{% macro render_table(content, start, end, length) %}
+<table>
+    <tr>
+        {% for key in content[0].keys() %}
+            <th>{{key}}</th>
+        {% endfor %}
+    </tr>
+    {% if length(content) < start or length(content) < end or start < 0 or end < 0 or start > end %}
+        {% for elem in content %}
+            {{create_row(elem)}}
+        {% endfor %}
+    {% else %}
+        {% for elem in content[start:end+1] %}
+            {{create_row(elem)}}
+        {% endfor %}
+    {% endif %}
+</table>
+{% endmacro %}
+</body>
+</html>
